@@ -1,6 +1,10 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/animation.dart';
+
+import 'package:keep_reminder/models/note_entry.dart';
+import 'entry_dialog.dart';
 
 class HomeScreen extends StatefulWidget{
 	HomeScreen({Key key, this.title}) : super(key: key);
@@ -13,6 +17,11 @@ class HomeScreen extends StatefulWidget{
 
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
+
+	List<KeepRemainder> keepSaves = new List();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  // for animation
 	Animation<double> containerGrowAnimation;
 	AnimationController _screenController;
 	AnimationController _buttonController;
@@ -31,9 +40,25 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
     });
   }
 
+  void showDemoDialog<T>({ BuildContext context, Widget child }) {
+    showDialog<T>(
+      context: context,
+      builder: (BuildContext context) => child,
+    )
+        .then<void>((T value) { // The value passed to Navigator.pop() or null.
+      if (value != null) {
+        _scaffoldKey.currentState.showSnackBar(new SnackBar(
+            content: new Text('You selected: $value')
+        ));
+      }
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      key: _scaffoldKey,
 	    appBar: new AppBar(
         backgroundColor: Colors.redAccent,
         title: new Text('Welcome to Keep Remainder'),
@@ -103,12 +128,30 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
           ],
         ),
       ),
+
+
+
       floatingActionButton: new FloatingActionButton(
 				backgroundColor: Colors.redAccent,
-        onPressed: _incrementCounter,
+        onPressed:_openAddEntryDialog,
         tooltip: 'Increment',
         child: new Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+
+
+	Future _openAddEntryDialog() async {
+		KeepRemainder save =
+		await Navigator.of(context).push(new MaterialPageRoute<KeepRemainder>(
+				builder: (BuildContext context) {
+					return new KeepEntryDialog.add(
+							keepSaves.isNotEmpty ? keepSaves.last.location: 'hello');
+				},
+				fullscreenDialog: true));
+		if (save != null) {
+			//_addWeightSave(save);
+		}
+	}
+
 }

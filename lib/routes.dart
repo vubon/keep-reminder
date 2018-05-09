@@ -8,6 +8,9 @@ class Routes {
 			title: "Keep Remainder",
 			debugShowCheckedModeBanner: false,
 			home: new WelcomeScreen(),
+			theme: new ThemeData(
+				primarySwatch: Colors.red,
+			),
 			onGenerateRoute: (RouteSettings settings) {
 				switch (settings.name) {
 					case '/welcome':
