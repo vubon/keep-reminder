@@ -26,12 +26,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 	@override
 	Widget build(BuildContext context) {
 		return new Scaffold(
-			backgroundColor: Colors.blueGrey,
+			backgroundColor: Colors.redAccent,
 			body: new Center(
 				child: new Column(
 					mainAxisAlignment: MainAxisAlignment.center,
 					children: <Widget>[
-						new Text('Welcome to Keep Remainder'),
+						new Image.asset('assets/images/map.png', width: 100.0, height: 100.0,),
+						new Text('Welcome to Keep Remainder', style: new TextStyle(color: Colors.white, height: 5.0)),
 						new Container(
 							child: new RaisedButton(
 									onPressed: (){
