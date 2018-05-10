@@ -13,7 +13,7 @@
     <string>NSLocationAlwaysUsageDescription</string>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>keep_reminder</string>
+	<string>Keep Reminder</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
