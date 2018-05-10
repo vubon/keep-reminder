@@ -31,7 +31,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 				child: new Column(
 					mainAxisAlignment: MainAxisAlignment.center,
 					children: <Widget>[
-						new Image.asset('assets/images/map.png', width: 100.0, height: 100.0,),
+						new Image.asset(
+              'assets/images/map.png',
+              width: 100.0,
+              height: 100.0,
+              color: Colors.white,
+            ),
 						new Text('Welcome to Keep Remainder', style: new TextStyle(color: Colors.white, height: 5.0)),
 						new Container(
 							child: new RaisedButton(

@@ -10,10 +10,22 @@ dependencies:
   cupertino_icons: ^0.1.0
   intl: "^0.15.6"
 
+  # database and path
+  sqflite: any
+  path_provider: "^0.3.1"
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  flutter_launcher_icons: "^0.2.0"
+
+flutter_icons:
+  image_path: "assets/images/icon.png"
+  android: true
+  ios: true
+
 
 
 # For information on the generic Dart part of this file, see the

@@ -37,7 +37,7 @@ class KeepEntryDialog extends StatefulWidget {
 class KeepEntryDialogState extends State<KeepEntryDialog> {
   String _title;
   String _location;
-  DateTime _dateTime = new DateTime.now();
+  DateTime _dateTime = new DateTime.now().toLocal();
   String _note;
 
   TextEditingController _noteTextController;
@@ -123,6 +123,7 @@ class KeepEntryDialogState extends State<KeepEntryDialog> {
               ),
               controller: _noteTextController,
               autofocus: true,
+              maxLines: null,
               onChanged: (value) => _note = value,
             ),
           ),
@@ -163,6 +164,7 @@ class DateTimeItem extends StatelessWidget {
   final TimeOfDay time;
   final ValueChanged<DateTime> onChanged;
 
+
   @override
   Widget build(BuildContext context) {
     return new Row(
@@ -179,7 +181,7 @@ class DateTimeItem extends StatelessWidget {
           onTap: (() => _showTimePicker(context)),
           child: new Padding(
               padding: new EdgeInsets.symmetric(vertical: 8.0),
-              child: new Text('$time')
+              child: new Text('$time'),
           ),
         ),
       ],
@@ -207,8 +209,8 @@ class DateTimeItem extends StatelessWidget {
   }
 
   Future _showTimePicker(BuildContext context) async {
-    TimeOfDay timeOfDay =
-    await showTimePicker(context: context, initialTime: time);
+    TimeOfDay timeOfDay = await showTimePicker(context: context, initialTime: time);
+    print(new DateTime.now().toLocal());
 
     if (timeOfDay != null) {
       onChanged(new DateTime(
