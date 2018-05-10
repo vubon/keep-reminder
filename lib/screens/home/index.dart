@@ -67,44 +67,43 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
 	    // create sidebar menu
 	    drawer: new Drawer(
 			    child: new ListView(
+						padding: new EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
 				    children: <Widget>[
-					    new UserAccountsDrawerHeader(
-						    accountName: new Text("Vubon Roy"),
-						    accountEmail: new Text("vubon.roy@gmail.com"),
-						    currentAccountPicture: new CircleAvatar(
-							    backgroundColor: Colors.redAccent,
-							    backgroundImage: new AssetImage('assets/images/vubon.jpg'),
-						    ),
-						    decoration: new BoxDecoration(color: Colors.redAccent),
-					    ),
+//					    new UserAccountsDrawerHeader(
+//						    accountName: new Text("Vubon Roy"),
+//						    accountEmail: new Text("vubon.roy@gmail.com"),
+//						    currentAccountPicture: new CircleAvatar(
+//							    backgroundColor: Colors.redAccent,
+//							    backgroundImage: new AssetImage('assets/images/vubon.jpg'),
+//						    ),
+//						    decoration: new BoxDecoration(color: Colors.redAccent),
+//					    ),
+
 					    new ListTile(
-						    title: new Text('Bill Pay', style: new TextStyle(color: Colors.black)),
-						    trailing: new Icon(Icons.payment, color: Colors.black,),
+						    title: new Text("Today's Keeps", style: new TextStyle(color: Colors.black)),
+						    // trailing: new Icon(Icons.payment, color: Colors.black,),
+						    leading: new Icon(Icons.today),
 						    onTap: () {
 							    Navigator.of(context).pop();
 							    Navigator.of(context).pushNamed("/BillPay");
 						    },
 					    ),
 					    new ListTile(
-						    title: new Text('Send Money', style: new TextStyle(color: Colors.black)),
-						    trailing: new Icon(Icons.send, color: Colors.black,),
+						    title: new Text("Tomorrow's Keeps", style: new TextStyle(color: Colors.black)),
+						    leading: new Icon(Icons.next_week, color: Colors.black,),
 						    onTap: () {
 							    Navigator.of(context).pop();
 							    Navigator.of(context).pushNamed("/SendMoney");
 						    },
 					    ),
-					    new ListTile(
-						    title: new Text('Balance', style: new TextStyle(color: Colors.black)),
-						    trailing: new Icon(Icons.attach_money, color: Colors.black),
-						    onTap: () {
-							    Navigator.of(context).pop();
-							    Navigator.of(context).pushNamed("/Balance");
-						    },
-					    ),
 					    new Divider(color: Colors.black,),
 					    new ListTile(
+								title: new Text('Settings'),
+								leading: new Icon(Icons.settings),
+							),
+					    new ListTile(
 						    title: new Text('Close', style: new TextStyle(color: Colors.black)),
-						    trailing: new Icon(Icons.close, color: Colors.black,),
+						    leading: new Icon(Icons.close, color: Colors.black,),
 						    onTap: ()=> Navigator.of(context).pop(),
 					    ),
 
