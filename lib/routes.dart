@@ -10,6 +10,7 @@ class Routes {
 			home: new WelcomeScreen(),
 			theme: new ThemeData(
 				primarySwatch: Colors.red,
+				accentColor: Colors.redAccent,
 			),
 			onGenerateRoute: (RouteSettings settings) {
 				switch (settings.name) {

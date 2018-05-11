@@ -133,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
       floatingActionButton: new FloatingActionButton(
 				backgroundColor: Colors.redAccent,
         onPressed:_openAddEntryDialog,
-        tooltip: 'Increment',
+        tooltip: 'Add new keep',
         child: new Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
@@ -145,7 +145,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
 		await Navigator.of(context).push(new MaterialPageRoute<KeepRemainder>(
 				builder: (BuildContext context) {
 					return new KeepEntryDialog.add(
-							keepSaves.isNotEmpty ? keepSaves.last.location: 'hello');
+							keepSaves.isNotEmpty ? keepSaves.last.location: 'Enter your location');
 				},
 				fullscreenDialog: true));
 		if (save != null) {

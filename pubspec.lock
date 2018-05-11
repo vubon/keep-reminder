@@ -111,6 +111,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_google_places_autocomplete:
+    dependency: "direct main"
+    description:
+      name: flutter_google_places_autocomplete
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.4"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
@@ -137,6 +144,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.5"
+  google_maps_webservice:
+    dependency: transitive
+    description:
+      name: google_maps_webservice
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.4"
   html:
     dependency: transitive
     description:
@@ -472,4 +486,4 @@ packages:
     source: hosted
     version: "2.1.13"
 sdks:
-  dart: ">=2.0.0-dev.35 <=2.0.0-edge.af1436931b93e755d38223c487d33a0a1f5eadf5"
+  dart: ">=2.0.0-dev.35 <=2.0.0-edge.3c4dccbd46f152be9e1b6ca95c57357e8e48057c"
