@@ -54,8 +54,8 @@ class KeepEntryDialogState extends State<KeepEntryDialog> {
     return new AppBar(
       backgroundColor: Colors.redAccent,
       title: widget.keepEntryToEdit == null
-          ? const Text("New entry")
-          : const Text("Edit entry"),
+          ? const Text("New keep")
+          : const Text("Edit keep"),
       actions: [
         new FlatButton(
           onPressed: () {
