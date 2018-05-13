@@ -106,6 +106,12 @@ class KeepEntryDialogState extends State<KeepEntryDialog> {
           ),
 
           new ListTile(
+//            leading: new Image.asset(
+//              "assets/images/map.png",
+//              color: Colors.redAccent,
+//              height: 24.0,
+//              width: 24.0,
+//            ),
             leading: new Icon(Icons.location_on, color: Colors.redAccent,),
             title: new Text("$_location",),
 	          onTap: () async {
@@ -125,7 +131,7 @@ class KeepEntryDialogState extends State<KeepEntryDialog> {
 							if (p != null){
 								setState(() => _location = p.description);
 							}
-		          displayPrediction(p, homeScaffoldKey.currentState);
+		          //displayPrediction(p, homeScaffoldKey.currentState);
 	          },
           ),
 
@@ -163,20 +169,20 @@ class KeepEntryDialogState extends State<KeepEntryDialog> {
 }
 
 
-Future<Null> displayPrediction(Prediction p, ScaffoldState scaffold) async {
-	if (p != null) {
-		// get detail (lat/lng)
-		PlacesDetailsResponse detail = await _places.getDetailsByPlaceId(p.placeId);
-		final lat = detail.result.geometry.location.lat;
-		final lng = detail.result.geometry.location.lng;
-		print("${p.description} - $lat-$lng");
-
-
-//		scaffold.showSnackBar(
-//				new SnackBar(content: new Text("${p.description} - $lat/$lng"))
-//		);
-	}
-}
+//Future<Null> displayPrediction(Prediction p, ScaffoldState scaffold) async {
+//	if (p != null) {
+//		// get detail (lat/lng)
+//		PlacesDetailsResponse detail = await _places.getDetailsByPlaceId(p.placeId);
+//		final lat = detail.result.geometry.location.lat;
+//		final lng = detail.result.geometry.location.lng;
+//		print("${p.description} - $lat-$lng");
+//
+//
+////		scaffold.showSnackBar(
+////				new SnackBar(content: new Text("${p.description} - $lat/$lng"))
+////		);
+//	}
+//}
 
 class DateTimeItem extends StatelessWidget {
   DateTimeItem({Key key, DateTime dateTime, @required this.onChanged})
