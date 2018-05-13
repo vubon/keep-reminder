@@ -2,13 +2,19 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/animation.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import 'package:keep_reminder/models/note_entry.dart';
 import 'entry_dialog.dart';
 
+import 'package:keep_reminder/key/db_connection.dart' as db;
+
 class HomeScreen extends StatefulWidget{
-	HomeScreen({Key key, this.title}) : super(key: key);
+	HomeScreen({Key key, this.title, this.app}) : super(key: key);
 	final String title;
+	final FirebaseApp app;
 
 	@override
 	_HomeScreenState createState() => new _HomeScreenState();
@@ -16,46 +22,34 @@ class HomeScreen extends StatefulWidget{
 
 
 
-class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
+class _HomeScreenState extends State<HomeScreen> {
 
-	List<KeepRemainder> keepSaves = new List();
+	List<KeepReminder> keepSaves = new List();
+	DatabaseReference itemRef;
+
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  // for animation
-	Animation<double> containerGrowAnimation;
-	AnimationController _screenController;
-	AnimationController _buttonController;
-	Animation<double> buttonGrowAnimation;
-	Animation<double> listTileWidth;
-	Animation<Alignment> listSlideAnimation;
-	Animation<Alignment> buttonSwingAnimation;
-	Animation<EdgeInsets> listSlidePosition;
-	Animation<Color> fadeScreenAnimation;
+	Future dbConnection() async {
+		await db.app;
+	}
+	@override
+	void initState() {
+		super.initState();
+		//item = KeepReminder("", "", 0.0,0.0, "");
+		final FirebaseDatabase database = FirebaseDatabase(app: widget.app);
+		itemRef = database.reference().child('keeps');
+		itemRef.onChildAdded.listen(_onEntryAdded);
+		//itemRef.onChildChanged.listen(_onEntryChanged);
+		this.dbConnection();
+	}
 
-	int _counter = 0;
+	_onEntryAdded(Event event) {
+		setState(() {
+			keepSaves.add(KeepReminder.fromSnapshot(event.snapshot));
+		});
+	}
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  void showDemoDialog<T>({ BuildContext context, Widget child }) {
-    showDialog<T>(
-      context: context,
-      builder: (BuildContext context) => child,
-    )
-        .then<void>((T value) { // The value passed to Navigator.pop() or null.
-      if (value != null) {
-        _scaffoldKey.currentState.showSnackBar(new SnackBar(
-            content: new Text('You selected: $value')
-        ));
-      }
-    });
-  }
-
-
-  @override
+	@override
   Widget build(BuildContext context) {
     return new Scaffold(
       key: _scaffoldKey,
@@ -111,23 +105,23 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
 			    )
 	    ),
 
-	    body: new Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: new Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            new Text(
-              'You have pushed the button this many times:',
-            ),
-            new Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
-        ),
-      ),
-
+	    body: Column(
+				children: <Widget>[
+					Flexible(
+						child: FirebaseAnimatedList(
+							query: itemRef,
+							itemBuilder: (BuildContext context, DataSnapshot snapshot,
+									Animation<double> animation, int index) {
+								return new ListTile(
+									leading: Icon(Icons.message),
+									title: Text(keepSaves[index].title),
+									subtitle: Text(keepSaves[index].location),
+								);
+							},
+						),
+					),
+				],
+	    ),
 
 
       floatingActionButton: new FloatingActionButton(
@@ -139,17 +133,26 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
     );
   }
 
+	void _addKeepSave(KeepReminder keep) {
+		setState(() {
+			keepSaves.add(keep);
+			print("${keep.title}");
+			print("${keep.location}");
+			print("${keep.dateTime}");
+		});
+	}
+
 
 	Future _openAddEntryDialog() async {
-		KeepRemainder save =
-		await Navigator.of(context).push(new MaterialPageRoute<KeepRemainder>(
+		KeepReminder save =
+		await Navigator.of(context).push(new MaterialPageRoute<KeepReminder>(
 				builder: (BuildContext context) {
 					return new KeepEntryDialog.add(
 							keepSaves.isNotEmpty ? keepSaves.last.location: 'Enter your location');
 				},
 				fullscreenDialog: true));
 		if (save != null) {
-			//_addWeightSave(save);
+			_addKeepSave(save);
 		}
 	}
 

@@ -10,10 +10,12 @@ dependencies:
   cupertino_icons: ^0.1.0
   intl: "^0.15.6"
   flutter_google_places_autocomplete: "^0.0.4"
+  firebase_database: "^0.4.6"
+  firebase_core: any
 
   # database and path
-  sqflite: any
-  path_provider: "^0.3.1"
+#  sqflite: any
+#  path_provider: "^0.3.1"
 
 
 dev_dependencies:

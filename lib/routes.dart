@@ -3,6 +3,10 @@ import 'package:keep_reminder/screens/welcome/index.dart';
 import 'package:keep_reminder/screens/home/index.dart';
 
 class Routes {
+	var routes = <String, WidgetBuilder>{
+		"/home": (BuildContext context) => new HomeScreen()
+	};
+
 	Routes() {
 		runApp(new MaterialApp(
 			title: "Keep Remainder",
@@ -12,33 +16,7 @@ class Routes {
 				primarySwatch: Colors.red,
 				accentColor: Colors.redAccent,
 			),
-			onGenerateRoute: (RouteSettings settings) {
-				switch (settings.name) {
-					case '/welcome':
-						return new MyCustomRoute(
-							builder: (_) => new WelcomeScreen(),
-							settings: settings,
-						);
-
-					case '/home':
-						return new MyCustomRoute(
-							builder: (_) => new HomeScreen(),
-							settings: settings,
-						);
-				}
-			},
+			routes: routes,
 		));
-	}
-}
-
-class MyCustomRoute<T> extends MaterialPageRoute<T> {
-	MyCustomRoute({WidgetBuilder builder, RouteSettings settings})
-			: super(builder: builder, settings: settings);
-
-	@override
-	Widget buildTransitions(BuildContext context, Animation<double> animation,
-			Animation<double> secondaryAnimation, Widget child) {
-		if (settings.isInitialRoute) return child;
-		return new FadeTransition(opacity: animation, child: child);
 	}
 }
