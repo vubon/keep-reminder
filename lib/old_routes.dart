@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:keep_reminder/screens/welcome/index.dart';
 import 'package:keep_reminder/screens/home/index.dart';
-import 'package:keep_reminder/key/db_connection.dart';
+//import 'package:keep_reminder/key/db_connection.dart';
 
 class Routes {
 	Routes() {

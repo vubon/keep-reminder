@@ -46,8 +46,8 @@ class KeepEntryDialog extends StatefulWidget {
 class KeepEntryDialogState extends State<KeepEntryDialog> {
   String _title;
   String _location;
-  double _lat;
-  double _lan;
+  String _lat;
+  String _lan;
   DateTime _dateTime = new DateTime.now();
   String _note;
 

@@ -4,8 +4,8 @@ class KeepReminder {
   String key;
   String title;
   String location;
-  double lat;
-  double lng;
+  String lat;
+  String lng;
   DateTime dateTime;
   String note;
 

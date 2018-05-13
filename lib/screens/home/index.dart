@@ -9,7 +9,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:keep_reminder/models/note_entry.dart';
 import 'entry_dialog.dart';
 
-import 'package:keep_reminder/key/db_connection.dart' as db;
 
 class HomeScreen extends StatefulWidget{
 	HomeScreen({Key key, this.title, this.app}) : super(key: key);
@@ -25,22 +24,20 @@ class HomeScreen extends StatefulWidget{
 class _HomeScreenState extends State<HomeScreen> {
 
 	List<KeepReminder> keepSaves = new List();
-	DatabaseReference itemRef;
+	KeepReminder keep;
+	DatabaseReference keepRef;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-	Future dbConnection() async {
-		await db.app;
-	}
 	@override
 	void initState() {
 		super.initState();
-		//item = KeepReminder("", "", 0.0,0.0, "");
-		final FirebaseDatabase database = FirebaseDatabase(app: widget.app);
-		itemRef = database.reference().child('keeps');
-		itemRef.onChildAdded.listen(_onEntryAdded);
-		//itemRef.onChildChanged.listen(_onEntryChanged);
-		this.dbConnection();
+		keep = KeepReminder("", "", "","", DateTime, "");
+		final FirebaseDatabase database = FirebaseDatabase(app:widget.app);
+		keepRef = database.reference().child('keeps');
+		keepRef.onChildAdded.listen(_onEntryAdded);
+		keepRef.onChildChanged.listen(_onEntryChanged);
+		print(keepSaves);
 	}
 
 	_onEntryAdded(Event event) {
@@ -48,6 +45,16 @@ class _HomeScreenState extends State<HomeScreen> {
 			keepSaves.add(KeepReminder.fromSnapshot(event.snapshot));
 		});
 	}
+
+	_onEntryChanged(Event event) {
+		var old = keepSaves.singleWhere((entry) {
+			return entry.key == event.snapshot.key;
+		});
+		setState(() {
+			keepSaves[keepSaves.indexOf(old)] = KeepReminder.fromSnapshot(event.snapshot);
+		});
+	}
+
 
 	@override
   Widget build(BuildContext context) {
@@ -109,12 +116,13 @@ class _HomeScreenState extends State<HomeScreen> {
 				children: <Widget>[
 					Flexible(
 						child: FirebaseAnimatedList(
-							query: itemRef,
+							query: keepRef,
 							itemBuilder: (BuildContext context, DataSnapshot snapshot,
 									Animation<double> animation, int index) {
+
 								return new ListTile(
 									leading: Icon(Icons.message),
-									title: Text(keepSaves[index].title),
+									title: Text(keepSaves[index].title, style: new TextStyle(color: Colors.red),),
 									subtitle: Text(keepSaves[index].location),
 								);
 							},
@@ -133,12 +141,23 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-	void _addKeepSave(KeepReminder keep) {
+	void _addKeepSave(keep) {
 		setState(() {
-			keepSaves.add(keep);
-			print("${keep.title}");
-			print("${keep.location}");
-			print("${keep.dateTime}");
+			var title = keep.title.toString();
+			var location = keep.location.toString();
+			var dateTime = keep.dateTime.toString();
+			var note = keep.note.toString();
+			var lat = keep.lat.toString();
+			var lng = keep.lng.toString();
+			Map data = {
+				"title": title,
+				"location": location,
+				"dateTime": dateTime,
+				"note": note,
+				"lat": lat,
+				"lng": lng
+			};
+			keepRef.push().set(keep.toJson());
 		});
 	}
 

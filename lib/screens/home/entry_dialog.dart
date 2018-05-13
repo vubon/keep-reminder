@@ -46,15 +46,15 @@ class KeepEntryDialog extends StatefulWidget {
 class KeepEntryDialogState extends State<KeepEntryDialog> {
   String _title;
   String _location;
-  double _lat;
-  double _lan;
+  String _lat;
+  String _lng;
   DateTime _dateTime = new DateTime.now();
   String _note;
 
   TextEditingController _noteTextController;
   TextEditingController _titleTextController;
 
-  KeepEntryDialogState(this._title, this._location, this._lat, this._lan, this._dateTime, this._note);
+  KeepEntryDialogState(this._title, this._location, this._lat, this._lng, this._dateTime, this._note);
 
   Widget _createAppBar(BuildContext context) {
     return new AppBar(
@@ -67,7 +67,7 @@ class KeepEntryDialogState extends State<KeepEntryDialog> {
           onPressed: () {
             Navigator
                 .of(context)
-                .pop(new KeepReminder(_title, _location,_lat, _lan, _dateTime, _note));
+                .pop(new KeepReminder(_title, _location,_lat, _lng, _dateTime, _note));
           },
           child: new Text('SAVE',
               style: Theme
@@ -123,9 +123,13 @@ class KeepEntryDialogState extends State<KeepEntryDialog> {
 				          components: [new Component(Component.country, "bd")]
 		          );
 							if (p != null){
+                PlacesDetailsResponse detail = await _places.getDetailsByPlaceId(p.placeId);
+                final lat = detail.result.geometry.location.lat;
+                final lng = detail.result.geometry.location.lng;
 								setState(() => _location = p.description);
+								setState(() => _lat = lat.toString());
+								setState(() => _lng = lng.toString());
 							}
-		          displayPrediction(p, homeScaffoldKey.currentState);
 	          },
           ),
 
@@ -163,20 +167,6 @@ class KeepEntryDialogState extends State<KeepEntryDialog> {
 }
 
 
-Future<Null> displayPrediction(Prediction p, ScaffoldState scaffold) async {
-	if (p != null) {
-		// get detail (lat/lng)
-		PlacesDetailsResponse detail = await _places.getDetailsByPlaceId(p.placeId);
-		final lat = detail.result.geometry.location.lat;
-		final lng = detail.result.geometry.location.lng;
-		print("${p.description} - $lat-$lng");
-
-
-//		scaffold.showSnackBar(
-//				new SnackBar(content: new Text("${p.description} - $lat/$lng"))
-//		);
-	}
-}
 
 class DateTimeItem extends StatelessWidget {
   DateTimeItem({Key key, DateTime dateTime, @required this.onChanged})
