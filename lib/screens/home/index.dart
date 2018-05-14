@@ -8,7 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'package:keep_reminder/models/note_entry.dart';
 import 'entry_dialog.dart';
-
+import 'keep_entry.dart';
 
 class HomeScreen extends StatefulWidget{
 	HomeScreen({Key key, this.title, this.app}) : super(key: key);
@@ -32,12 +32,11 @@ class _HomeScreenState extends State<HomeScreen> {
 	@override
 	void initState() {
 		super.initState();
-		keep = KeepReminder("", "", "","", DateTime, "");
+		// keep = KeepReminder("", "", "","", DateTime, "");
 		final FirebaseDatabase database = FirebaseDatabase(app:widget.app);
 		keepRef = database.reference().child('keeps');
 		keepRef.onChildAdded.listen(_onEntryAdded);
 		keepRef.onChildChanged.listen(_onEntryChanged);
-		print(keepSaves);
 	}
 
 	_onEntryAdded(Event event) {
@@ -134,7 +133,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
       floatingActionButton: new FloatingActionButton(
 				backgroundColor: Colors.redAccent,
-        onPressed:_openAddEntryDialog,
+        onPressed: (){
+					Navigator.push(
+						context,
+						new MaterialPageRoute(builder: (context) => new KeepEntry())
+					);
+				},
         tooltip: 'Add new keep',
         child: new Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
