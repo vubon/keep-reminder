@@ -12,6 +12,7 @@ dependencies:
   flutter_google_places_autocomplete: "^0.0.4"
   firebase_database: "^0.4.6"
   firebase_core: any
+  cloud_firestore: "^0.7.1"
 
   # database and path
 #  sqflite: any

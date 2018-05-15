@@ -9,6 +9,7 @@ import 'package:meta/meta.dart';
 import 'package:flutter_google_places_autocomplete/flutter_google_places_autocomplete.dart';
 
 import 'package:keep_reminder/key/keys.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 // google map API key called
@@ -49,6 +50,8 @@ class _KeepEntryState extends State<KeepEntry>{
 
    // keepReference = database.reference().child('keeps');
    // print(database);
+    Firestore.instance.collection('books').document()
+        .setData({ 'title': 'title', 'author': 'author' });
     super.initState();
   }
 

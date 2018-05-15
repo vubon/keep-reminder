@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "977145270517",
+    "firebase_url": "https://vubon-1e8fe.firebaseio.com",
+    "project_id": "vubon-1e8fe",
+    "storage_bucket": "vubon-1e8fe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:977145270517:android:627364a7ac072030",
+        "android_client_info": {
+          "package_name": "com.example.keepreminder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "977145270517-1jk5dq8jg2gs34iup5uee3j6oo5nlsmq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAq2grcD0xmkzpyJx4f2EfTx_4qS0LyVdw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:977145270517:android:94795a974b1f6481",
+        "android_client_info": {
+          "package_name": "com.mszalek.weight_tracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "977145270517-1jk5dq8jg2gs34iup5uee3j6oo5nlsmq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAq2grcD0xmkzpyJx4f2EfTx_4qS0LyVdw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
