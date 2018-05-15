@@ -1,18 +1,25 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import 'package:keep_reminder/models/db_settings.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:meta/meta.dart';
 import 'package:flutter_google_places_autocomplete/flutter_google_places_autocomplete.dart';
 
 import 'package:keep_reminder/key/keys.dart';
 
+
 // google map API key called
 final homeScaffoldKey = new GlobalKey<ScaffoldState>();
 GoogleMapsPlaces _places = new GoogleMapsPlaces(kGoogleApiKey);
 
+
 class KeepEntry extends StatefulWidget{
-  KeepEntry({Key key, this.title}) : super(key: key);
+  KeepEntry({Key key, this.title, this.app}) : super(key: key);
   final String title;
+  final FirebaseApp app;
 
   @override
   _KeepEntryState createState() => new _KeepEntryState();
@@ -32,10 +39,16 @@ class _KeepEntryState extends State<KeepEntry>{
   TextEditingController _noteTextController;
   TextEditingController _titleTextController;
 
+  //DatabaseReference keepReference;
+
   @override
   void initState() {
     _noteTextController = new TextEditingController(text: _note);
     _titleTextController = new TextEditingController(text: _title);
+   // final FirebaseDatabase database = FirebaseDatabase(app: widget.app);
+
+   // keepReference = database.reference().child('keeps');
+   // print(database);
     super.initState();
   }
 
@@ -43,11 +56,22 @@ class _KeepEntryState extends State<KeepEntry>{
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        //key: homeScaffoldKey,
+        key: homeScaffoldKey,
         title: new Text('New Keep'),
         actions: <Widget>[
           new FlatButton(
-              onPressed: _saveData(),
+              onPressed: (){
+	              _saveData();
+	              Navigator.pop(context);
+	              // TODO: Think about later for validation
+//	              final FormState form = formKey.currentState;
+//	              if(form.validate()){
+//
+//		              form.reset();
+//
+//	              }
+
+              },
               child: new Text(
                 'Save',
                 style: Theme.of(context).textTheme.subhead.copyWith(color: Colors.white),
@@ -57,15 +81,18 @@ class _KeepEntryState extends State<KeepEntry>{
 
       ),
       body: Column(
+	      key: formKey,
         children: <Widget>[
           new ListTile(
             leading: new Icon(Icons.title, color: Colors.redAccent,),
-            title: new TextField(
+            title: new TextFormField(
               decoration: new InputDecoration(
                   hintText: 'Enter your title'
               ),
               controller: _titleTextController,
-              onChanged: (value) => _title = value,
+              //onChanged: (value) => _title = value,
+	            onSaved: (value) => _title = value,
+	            validator: (value) => value == "" ? value : null,
               autofocus: true,
             ),
           ),
@@ -130,13 +157,23 @@ class _KeepEntryState extends State<KeepEntry>{
     );
   }
 
+  String _getDate(){
+	  DateTime getDate = _dateTime;
+	  var formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
+	  return formatter.format(getDate);
+  }
   // Save the Data
-  _saveData() {
-    print('$_title');
-    print('$_location');
-    print('$_lat');
-    print('$_lng');
-    print('$_note');
+  DatabaseReference keepReference = FirebaseDatabase.instance.reference().child('keeps');
+  void _saveData() {
+		  Map data = {
+			  "title": _title,
+			  "location": _location,
+			  "dateTime": _getDate(),
+			  "note": _note,
+			  "lat": _lat,
+			  "lng": _lng
+		  };
+      keepReference.push().set(data);
   }
 
 }

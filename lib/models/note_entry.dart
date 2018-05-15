@@ -23,7 +23,7 @@ class KeepReminder {
         location = snapshot.value["location"],
         lat = snapshot.value["lat"],
         lng = snapshot.value["lng"],
-        dateTime = snapshot.value["dateTime"],
+        dateTime = new DateTime.fromMillisecondsSinceEpoch(snapshot.value["dateTime"]),
         note = snapshot.value["note"];
 
   toJson() {
@@ -32,7 +32,7 @@ class KeepReminder {
       "location": location,
       "lat": lat,
       "lng": lng,
-      "dateTime": dateTime,
+      "dateTime": dateTime.millisecondsSinceEpoch,
       "note": note,
     };
   }

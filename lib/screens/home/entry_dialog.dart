@@ -229,8 +229,6 @@ class DateTimeItem extends StatelessWidget {
 
   Future _showTimePicker(BuildContext context) async {
     TimeOfDay timeOfDay = await showTimePicker(context: context, initialTime: time);
-    print(new DateTime.now().toLocal());
-
     if (timeOfDay != null) {
       onChanged(new DateTime(
           date.year, date.month, date.day, timeOfDay.hour, timeOfDay.minute));
